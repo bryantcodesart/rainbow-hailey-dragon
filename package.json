@@ -13,7 +13,8 @@
     "@types/stats.js": "^0.17.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "stats.js": "^0.17.0"
+    "stats.js": "^0.17.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

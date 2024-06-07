@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 
 import Stats from "stats.js";
 import { DEBUG_OPTIONS } from "./DEBUG_OPTIONS";
+import { getUIState } from "./useUIStore";
 
 const vertexShaderSource = /*glsl*/ `#version 300 es
     in vec4 a_position;
@@ -23,13 +24,46 @@ const fragmentShaderSource = /*glsl*/ `#version 300 es
     uniform vec2 u_resolution;
     uniform float u_time;
     uniform vec2 u_pointer;
+    uniform vec3 u_color;
+
+    float smoothmin(float a, float b, float k) {
+      float h = max(k-abs(a-b), 0.0) / k;
+      return min(a, b) - h*h*h*k*(1.0/6.0);
+    }
 
     void main() {
       float aspect = u_resolution.x / u_resolution.y;
+      vec2 uv = vec2((v_uv.x - 0.5) * aspect, v_uv.y - 0.5);
+      vec2 pointer = vec2((u_pointer.x - 0.5) * aspect, u_pointer.y - 0.5);
 
-      float t = (sin(u_time* 10.)+1.)/2.;
-      float d = max(1. - distance(v_uv, u_pointer)*5.,0.);
-      outColor = vec4(v_uv.xy, d*(0.5+0.5*t), 1.);
+      float t = (sin(u_time* 2.)+1.)/2.;
+      // float d = max(1. - distance(v_uv, u_pointer)*5.,0.);
+
+      float d1 = distance(uv, vec2(0.15-t*0.5,0.));
+      float d2 = distance(uv, vec2(-0.15+t*0.5,0.));
+      float d3 = distance(uv, pointer);
+      float d = smoothmin(d1, d2, 0.1);
+      // d = smoothmin(d, d3, 0.1);
+
+      float blur = 0.01;
+      float rad = 0.2-0.1*t;
+      float bw = 0.01;
+
+      float v = step(rad, d);
+
+
+      float bgd = distance(uv, vec2(0.0));
+      float grad = (bgd) * sin((bgd-u_time*0.5)*10.);
+
+      vec3 bg = mix(vec3(1.), u_color, grad);
+
+
+      float border = step(rad-bw, d) - step(rad+bw, d);
+      float fill = step(rad,d);
+      vec3 color = mix(u_color, bg, fill);
+      color = mix(color, vec3(0.), border);
+      // outColor = vec4(v_uv.xy, d*(0.5+0.5*t), 1.);
+      outColor = vec4(color,1.);
     }
 `;
 
@@ -129,6 +163,8 @@ export function ShaderCanvas() {
       "u_resolution"
     );
 
+    const colorUniformLocation = gl.getUniformLocation(program, "u_color");
+
     const pointerUniformLocation = gl.getUniformLocation(program, "u_pointer");
 
     const timeUniformLocation = gl.getUniformLocation(program, "u_time");
@@ -182,6 +218,8 @@ export function ShaderCanvas() {
       animationFrameHandle = requestAnimationFrame(draw);
       stats.begin();
 
+      const { red, green, blue } = getUIState();
+
       resizeCanvasToDisplaySize(canvas, canvasContainer);
       const rect = canvas.getBoundingClientRect();
       const pointerPositionInUv = [
@@ -202,6 +240,8 @@ export function ShaderCanvas() {
       );
       gl.uniform1f(timeUniformLocation, time / 1000);
       gl.uniform2fv(pointerUniformLocation, pointerPositionInUv);
+
+      gl.uniform3fv(colorUniformLocation, [red / 255, green / 255, blue / 255]);
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
@@ -229,7 +269,7 @@ export function ShaderCanvas() {
     >
       <canvas
         ref={canvasRef}
-        className="absolute top-0 left-0 border border-blue-600 h-full w-full"
+        className="absolute top-0 left-0 w-full h-full border border-blue-600"
       />
     </div>
   );
