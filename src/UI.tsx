@@ -6,8 +6,8 @@ function ColorValueInput(props: {
 }) {
   return (
     <input
-      type="number"
-      className="font-mono text-center border-2 border-black"
+      type="range"
+      className="block border-2 border-black"
       value={props.colorValue}
       min={0}
       max={255}
@@ -17,6 +17,12 @@ function ColorValueInput(props: {
     />
   );
 }
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// biome-ignore lint/suspicious/noExplicitAny: The only way I've found to do this
+type CustomCssPropertyAny = any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 function ColorVisualizer({
   red,
   blue,
@@ -32,9 +38,9 @@ function ColorVisualizer({
 
   return (
     <div
-      className="w-10 h-10 border-2 border-black bg-[--hex]"
+      className="w-20 h-20 border-2 border-black bg-[--hex]"
       style={{
-        ["--hex" as any]: hex,
+        ["--hex" as CustomCssPropertyAny]: hex,
       }}
     />
   );
@@ -43,10 +49,21 @@ export function UI() {
   const { red, green, blue, setRed, setGreen, setBlue } = useUIStore();
 
   return (
-    <div className="flex fixed top-0 right-0 p-2">
-      <ColorValueInput colorValue={red} setColorValue={setRed} />
-      <ColorValueInput colorValue={green} setColorValue={setGreen} />
-      <ColorValueInput colorValue={blue} setColorValue={setBlue} />
+    <div className="flex fixed top-0 right-0 gap-2 items-center p-2 font-mono text-xs text-center">
+      <div>
+        <label className="block">
+          Red
+          <ColorValueInput colorValue={red} setColorValue={setRed} />
+        </label>
+        <label className="block">
+          Green
+          <ColorValueInput colorValue={green} setColorValue={setGreen} />
+        </label>
+        <label className="block">
+          Blue
+          <ColorValueInput colorValue={blue} setColorValue={setBlue} />
+        </label>
+      </div>
       <ColorVisualizer red={red} green={green} blue={blue} />
     </div>
   );
