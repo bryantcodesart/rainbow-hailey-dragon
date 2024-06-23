@@ -1,18 +1,7 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
 const MAX_DPR = 2;
-
-type RenderQueueOptions = {
+export type RenderQueueOptions = {
   priority: number;
 };
-
 type RenderQueueItem = {
   function: () => void;
   options: RenderQueueOptions;
@@ -122,65 +111,4 @@ export class WebGLRenderer {
   public destroy(): void {
     this.intersectionObserver.disconnect();
   }
-}
-
-const WebglRendererContext = createContext<WebGLRenderer | null>(null);
-
-export function useWebglRenderer() {
-  const renderer = useContext(WebglRendererContext);
-  if (!renderer) throw new Error("No WebGLRenderer found");
-  return renderer;
-}
-
-export function useOnRender(
-  callback: () => void,
-  options: Partial<RenderQueueOptions> = {}
-): void {
-  const renderer = useWebglRenderer();
-  const { priority } = options;
-  useEffect(() => {
-    const unsub = renderer.onRender(callback, {
-      priority: priority ?? 5,
-    });
-    return () => {
-      unsub();
-    };
-  }, [callback, renderer, priority]);
-}
-
-export function WebGLCanvas({ children }: { children?: ReactNode }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const [renderer, setRenderer] = useState<WebGLRenderer | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-
-    const renderer = new WebGLRenderer(canvas, container);
-
-    let animationFrameId: number;
-    setRenderer(renderer);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      renderer.destroy();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className="absolute top-0 left-0 w-full h-full bg-violet"
-    >
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
-      {renderer && (
-        <WebglRendererContext.Provider value={renderer}>
-          {children}
-        </WebglRendererContext.Provider>
-      )}
-    </div>
-  );
 }

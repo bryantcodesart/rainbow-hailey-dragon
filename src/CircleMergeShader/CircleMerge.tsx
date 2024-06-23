@@ -1,16 +1,22 @@
-import { useOnRender, useWebglRenderer } from "./WebglCanvas";
+import { useWebglRenderer } from "../webgl-util/renderer/useWebglRenderer";
+import { useOnRender } from "../webgl-util/renderer/useOnRender";
 import { useEffect, useState } from "react";
-import { useUIStore } from "./useUIStore";
-import { useResolutionUniform } from "./useResolutionUniform";
-import { useTimeUniform } from "./useTimeUniform";
-import { useFullCanvasShaderProgram } from "./useFullCanvasShaderProgram";
+import { useUIStore } from "../ui/useUIStore";
+import { useResolutionUniform } from "../webgl-util/program/useResolutionUniform";
+import { useTimeUniform } from "../webgl-util/program/useTimeUniform";
+import { useFullCanvasShaderProgram } from "../webgl-util/program/useFullCanvasShaderProgram";
+import testFragShader from "./circleMerge.frag.glsl?raw";
+import testVertShader from "./circleMerge.vert.glsl?raw";
 
-export function CircleMergeShader() {
+export function CircleMerge() {
   const renderer = useWebglRenderer();
   const { gl } = renderer;
 
   // Make a big triangle that covers the canvas
-  const { program, vao } = useFullCanvasShaderProgram();
+  const { program, vao } = useFullCanvasShaderProgram(
+    testVertShader,
+    testFragShader
+  );
 
   // Set up our uniforms
   useTimeUniform(program);

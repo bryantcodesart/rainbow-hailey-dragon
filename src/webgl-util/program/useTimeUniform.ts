@@ -1,4 +1,5 @@
-import { useOnRender, useWebglRenderer } from "./WebglCanvas";
+import { useWebglRenderer } from "../renderer/useWebglRenderer";
+import { useOnRender } from "../renderer/useOnRender";
 import { useEffect, useState } from "react";
 
 export function useTimeUniform(program: WebGLProgram | null) {

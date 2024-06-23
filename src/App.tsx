@@ -1,28 +1,20 @@
-import { ErrorMessage } from "./ErrorMessage";
-import { UI } from "./UI";
-import { ErrorBoundary } from "react-error-boundary";
-import { WebGLCanvas } from "./WebglCanvas";
-import { CircleMergeShader } from "./CircleMergeShader";
+import { UI } from "./ui/UI";
+import { WebGLCanvas } from "./webgl-util/WebglCanvas";
+import { CircleMerge } from "./CircleMergeShader/CircleMerge";
 
-import { RepeatedlyMountForTesting } from "./RepeatedlyMountForTesting";
+import { RepeatedlyMountForTesting } from "./utility/RepeatedlyMountForTesting";
+import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
 
 function App() {
   return (
-    <ErrorBoundary
-      FallbackComponent={({ error }) => (
-        <ErrorMessage.Modal>
-          <ErrorMessage.Title>Something went wrong!</ErrorMessage.Title>
-          <ErrorMessage.Body>{error.message}</ErrorMessage.Body>
-        </ErrorMessage.Modal>
-      )}
-    >
+    <ErrorModalBoundary>
       <WebGLCanvas>
         <RepeatedlyMountForTesting duration={200} active={false}>
-          <CircleMergeShader />
+          <CircleMerge />
         </RepeatedlyMountForTesting>
       </WebGLCanvas>
       <UI />
-    </ErrorBoundary>
+    </ErrorModalBoundary>
   );
 }
 

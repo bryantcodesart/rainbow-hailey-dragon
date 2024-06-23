@@ -1,10 +1,11 @@
-import { useWebglRenderer } from "./WebglCanvas";
+import { useWebglRenderer } from "../renderer/useWebglRenderer";
 import { useEffect, useState } from "react";
-import testFragShader from "./testShader.frag.glsl?raw";
-import testVertShader from "./testShader.vert.glsl?raw";
 import { createProgram } from "./createProgram";
 
-export function useFullCanvasShaderProgram() {
+export function useFullCanvasShaderProgram(
+  vertShaderSource: string,
+  fragShaderSource: string
+) {
   const { gl } = useWebglRenderer();
 
   const [program, setProgram] = useState<WebGLProgram | null>(null);
@@ -12,7 +13,7 @@ export function useFullCanvasShaderProgram() {
 
   useEffect(() => {
     // Create a shader program
-    const prog = createProgram(gl, testVertShader, testFragShader);
+    const prog = createProgram(gl, vertShaderSource, fragShaderSource);
     setProgram(prog);
 
     const positionAttributeLocation = gl.getAttribLocation(prog, "a_position");
@@ -51,7 +52,7 @@ export function useFullCanvasShaderProgram() {
       gl.deleteVertexArray(_vao);
       gl.deleteProgram(prog);
     };
-  }, [gl]);
+  }, [gl, vertShaderSource, fragShaderSource]);
 
   return { program, vao };
 }
