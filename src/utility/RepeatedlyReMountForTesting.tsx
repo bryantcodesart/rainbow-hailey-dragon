@@ -12,7 +12,7 @@ export const RepeatedlyReMountForTesting = ({
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (active) {
       interval = setInterval(() => {
         setShow((prev) => !prev);
