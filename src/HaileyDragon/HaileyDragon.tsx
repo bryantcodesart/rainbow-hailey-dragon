@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { createProgram } from "../webgl-util/program/createProgram";
 import { Uniform } from "../webgl-util/program/Uniform";
 import { ImageTexture } from "../webgl-util/program/ImageTexture";
+import { ControlsTunnel } from "../App";
+import { Controls } from "../ui/Controls";
+import { useMotionValue } from "framer-motion";
 
 const N_HAILEYS = 4000;
 
@@ -17,6 +20,8 @@ in float a_offset;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform float u_length;
+uniform float u_craziness;
 
 out vec2 v_uv;
 out float v_offset;
@@ -37,13 +42,15 @@ void main() {
   float aspect = u_resolution.x / u_resolution.y;
 
 
-  float t = u_time * 2.0 + (a_offset * TAU)*14.0;
+  float t = u_time * 2.0 + (a_offset * TAU)*10.0;
   v_t = t;
 
 
   float width = 0.1*(pow(a_offset, 5.0) * 5. + 0.1);
   width = (sin(t+u_time*3.)*0.1+0.8)*width;
   width *= sin(t)*0.5+0.8;
+
+  if(a_offset<1.-u_length) width = 0.0;
   vec2 size = vec2(width, width);
   float rotation = sin(t)*spikySin(t*0.2);
   vec2 anchor = vec2(0.5, 0.5);
@@ -95,23 +102,22 @@ void main() {
   vec4 texColor = texture(u_texture, uv);
 
 
-  vec4 color = texColor;
+  vec4 tailColor = texColor;
   float b = (sin(v_offset*200.+u_time*20.)*0.5+0.9)*1.0+0.5;
   b*= v_offset;
-  color *= vec4(b, b, b, 1.0);
+  tailColor *= vec4(b, b, b, 1.0);
 
-  float halo = 1.0 - distance(v_uv, vec2(0.5, 0.5))*3.0;
-  halo = clamp(halo, 0.0, 1.0);
-  halo *= sin(halo*20.+v_t*8.+u_time*20.);
-  color = texColor; //*0.5+halo*2.;
+  // float halo = 1.0 - distance(v_uv, vec2(0.5, 0.5))*3.0;
+  // halo = clamp(halo, 0.0, 1.0);
+  // halo *= sin(halo*20.+v_t*8.+u_time*20.);
+  // color = texColor; //*0.5+halo*2.;
   float ct = v_t+u_time*2.0;
-  color.r += sin(ct);
-  color.g += sin(ct*2.2);
-  color.b += sin(ct*3.7);
+  tailColor.r += sin(ct);
+  tailColor.g += sin(ct*2.2);
+  tailColor.b += sin(ct*3.7);
 
-  if(v_offset>0.998) {
-    color = texColor *1.2;
-  }
+  vec4 headColor = texColor*(1.0 + 0.5*(sin(u_time*7.)*0.5+0.5));
+  vec4 color = mix(tailColor, headColor, smoothstep(0.99,1.0,v_offset));
 
   outColor = color;
 
@@ -134,11 +140,9 @@ class Program {
   uniforms: {
     u_resolution: Uniform<"vec2">;
     u_time: Uniform<"float">;
-    // u_size: Uniform<"vec2">;
-    // u_position: Uniform<"vec2">;
-    // u_rotation: Uniform<"float">;
-    // u_anchor: Uniform<"vec2">;
     u_texture: Uniform<"sampler2D">;
+    u_length: Uniform<"float">;
+    u_craziness: Uniform<"float">;
   };
   textures: {
     hailey: ImageTexture;
@@ -196,6 +200,20 @@ class Program {
         program: this.program,
         name: "u_texture",
         type: "sampler2D",
+        initialValue: 0,
+      }),
+      u_length: new Uniform({
+        gl,
+        program: this.program,
+        name: "u_length",
+        type: "float",
+        initialValue: 0.2,
+      }),
+      u_craziness: new Uniform({
+        gl,
+        program: this.program,
+        name: "u_crazieness",
+        type: "float",
         initialValue: 0,
       }),
     };
@@ -291,6 +309,10 @@ export function HaileyDragon() {
   const { gl } = useWebglRenderer();
   const [program, setProgram] = useState<Program | null>(null);
 
+  const [craziness, setCraziness] = useState(0);
+  const [speed, setSpeed] = useState(1);
+  const [length, setLength] = useState(Math.floor(N_HAILEYS * 0.2));
+  const time = useMotionValue(0);
   useEffect(() => {
     if (!gl) return;
     const program = new Program({ gl });
@@ -312,13 +334,42 @@ export function HaileyDragon() {
         console.warn("Program was created with different gl context");
         return;
       }
+      const previousTime = time.get();
+      const newTime = previousTime + (speed * 1) / 60;
+      time.set(newTime);
       program.uniforms.u_resolution.update([renderer.width, renderer.height]);
-      program.uniforms.u_time.update(renderer.time);
+      program.uniforms.u_time.update(newTime);
+      program.uniforms.u_length.update(length / N_HAILEYS);
       program.draw();
     },
     {
       order: 1,
     }
   );
-  return null;
+
+  return (
+    <ControlsTunnel.In>
+      <Controls.NumberSlider
+        setValue={setCraziness}
+        value={craziness}
+        label={"craziness"}
+      />
+      <Controls.NumberSlider
+        setValue={setSpeed}
+        value={speed}
+        min={0}
+        max={5}
+        step={0.1}
+        label={"speed"}
+      />
+      <Controls.NumberSlider
+        setValue={setLength}
+        value={length}
+        min={1}
+        max={N_HAILEYS}
+        step={1}
+        label={"# haileys"}
+      />
+    </ControlsTunnel.In>
+  );
 }
