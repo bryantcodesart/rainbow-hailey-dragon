@@ -1,4 +1,3 @@
-"use client";
 function getParam(val: string) {
   if (typeof window !== "undefined")
     return new URLSearchParams(window.location.search).get(val);
