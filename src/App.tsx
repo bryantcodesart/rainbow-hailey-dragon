@@ -2,7 +2,7 @@
 import { WebGLCanvas } from "./webgl-util/WebglCanvas";
 // import { CircleMerge } from "./CircleMergeShader/CircleMerge";
 
-import { RepeatedlyReMountForTesting } from "./utility/RepeatedlyReMountForTesting";
+// import { RepeatedlyReMountForTesting } from "./utility/RepeatedlyReMountForTesting";
 import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
 import { HaileyDragon } from "./Sprite/HaileyDragon";
 import { Background } from "./Sprite/Background";
