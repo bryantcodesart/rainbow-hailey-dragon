@@ -1,8 +1,8 @@
 import Stats from "stats.js";
+import { getDpr } from "./getDpr";
 
-const MAX_DPR = 2;
 export type RenderQueueOptions = {
-  priority: number;
+  order: number;
 };
 type RenderQueueItem = {
   function: (_renderer: WebGLRenderer) => void;
@@ -16,7 +16,7 @@ export class WebGLRenderer {
   private canvasContainer: HTMLElement;
   private renderQueue: RenderQueueItem[] = [];
   private intersectionObserver: IntersectionObserver;
-  public dpr = this.getDpr();
+  public dpr = getDpr();
   public width = 0;
   public height = 0;
   public time = 0;
@@ -24,9 +24,13 @@ export class WebGLRenderer {
 
   constructor(canvas: HTMLCanvasElement, canvasContainer: HTMLElement) {
     // console.log("creating webgl renderer", this.id);
-    const gl = canvas.getContext("webgl2");
+    const gl = canvas.getContext("webgl2", { depth: true });
     if (!gl) throw new Error("WebGL2 not supported");
     this.gl = gl;
+
+    this.gl.enable(this.gl.DEPTH_TEST);
+    this.gl.depthFunc(this.gl.LEQUAL);
+
     this.canvasContainer = canvasContainer;
     this.canvas = canvas;
 
@@ -40,17 +44,17 @@ export class WebGLRenderer {
 
     this.resizeCanvasToDisplaySize();
 
-    const render = () => {
+    const drawLoop = () => {
       this.stats.begin();
-      this.render();
+      this.frame();
       this.stats.end();
-      requestAnimationFrame(render);
+      requestAnimationFrame(drawLoop);
     };
 
-    render();
+    drawLoop();
   }
 
-  public onRender(
+  public onFrame(
     fn: (renderer: WebGLRenderer) => void,
     options: RenderQueueOptions
   ): () => void {
@@ -60,10 +64,10 @@ export class WebGLRenderer {
     };
 
     const index = this.renderQueue.findIndex(
-      (item) => item.options.priority < options.priority
+      (item) => item.options.order > options.order
     );
     if (index === -1) {
-      this.renderQueue.push(newItem);
+      this.renderQueue.unshift(newItem);
     } else {
       this.renderQueue.splice(index, 0, newItem);
     }
@@ -76,16 +80,12 @@ export class WebGLRenderer {
     };
   }
 
-  private getDpr(): number {
-    return Math.min(MAX_DPR, window.devicePixelRatio);
-  }
-
   private resizeCanvasToDisplaySize(): boolean {
     const canvas = this.gl.canvas;
     if (!(canvas instanceof HTMLCanvasElement)) {
       throw new Error("Invalid canvas");
     }
-    const dpr = this.getDpr();
+    const dpr = getDpr();
     const { clientWidth, clientHeight } = this.canvasContainer;
 
     const targetWidth = clientWidth * dpr;
@@ -105,14 +105,14 @@ export class WebGLRenderer {
     return needsResize;
   }
 
-  public render(): void {
+  public frame(): void {
     this.resizeCanvasToDisplaySize();
     this.time += 1 / 60;
 
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
     this.gl.clearColor(0, 0, 0, 1);
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
     for (const item of this.renderQueue) {
       item.function(this);

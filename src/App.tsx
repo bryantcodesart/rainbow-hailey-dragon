@@ -4,20 +4,14 @@ import { WebGLCanvas } from "./webgl-util/WebglCanvas";
 
 // import { RepeatedlyReMountForTesting } from "./utility/RepeatedlyReMountForTesting";
 import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
-import { HaileyDragon } from "./Sprite/HaileyDragon";
-import { Background } from "./Sprite/Background";
+import { HaileyDragon } from "./HaileyDragon/HaileyDragon";
 
 function App() {
   return (
     <ErrorModalBoundary>
       <WebGLCanvas>
-        <Background />
-        {Array.from({ length: 100 }, (_, i) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          <HaileyDragon key={i} offset={i * 0.01} />
-        ))}
+        <HaileyDragon />
       </WebGLCanvas>
-      {/* <UI /> */}
     </ErrorModalBoundary>
   );
 }
