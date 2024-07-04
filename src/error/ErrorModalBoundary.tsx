@@ -11,7 +11,9 @@ export function ErrorModalBoundary({
       FallbackComponent={({ error }) => (
         <ErrorMessage.Modal>
           <ErrorMessage.Title>Something went wrong!</ErrorMessage.Title>
-          <ErrorMessage.Body>{error.message}</ErrorMessage.Body>
+          <ErrorMessage.Body>
+            <pre>{error.message}</pre>
+          </ErrorMessage.Body>
         </ErrorMessage.Modal>
       )}
     >

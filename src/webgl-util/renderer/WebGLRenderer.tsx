@@ -1,9 +1,11 @@
+import Stats from "stats.js";
+
 const MAX_DPR = 2;
 export type RenderQueueOptions = {
   priority: number;
 };
 type RenderQueueItem = {
-  function: () => void;
+  function: (_renderer: WebGLRenderer) => void;
   options: RenderQueueOptions;
 };
 
@@ -18,6 +20,7 @@ export class WebGLRenderer {
   public width = 0;
   public height = 0;
   public time = 0;
+  private stats: Stats;
 
   constructor(canvas: HTMLCanvasElement, canvasContainer: HTMLElement) {
     // console.log("creating webgl renderer", this.id);
@@ -27,6 +30,9 @@ export class WebGLRenderer {
     this.canvasContainer = canvasContainer;
     this.canvas = canvas;
 
+    this.stats = new Stats(); // Initialize stats
+    document.body.appendChild(this.stats.dom); // Append stats to the DOM
+
     this.intersectionObserver = new IntersectionObserver((entries) => {
       this.inView = entries[0].isIntersecting;
     }, {});
@@ -35,14 +41,19 @@ export class WebGLRenderer {
     this.resizeCanvasToDisplaySize();
 
     const render = () => {
+      this.stats.begin();
       this.render();
+      this.stats.end();
       requestAnimationFrame(render);
     };
 
     render();
   }
 
-  public onRender(fn: () => void, options: RenderQueueOptions): () => void {
+  public onRender(
+    fn: (renderer: WebGLRenderer) => void,
+    options: RenderQueueOptions
+  ): () => void {
     const newItem: RenderQueueItem = {
       function: fn,
       options: options,
@@ -104,11 +115,12 @@ export class WebGLRenderer {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
     for (const item of this.renderQueue) {
-      item.function();
+      item.function(this);
     }
   }
 
   public destroy(): void {
     this.intersectionObserver.disconnect();
+    this.stats.dom.remove();
   }
 }

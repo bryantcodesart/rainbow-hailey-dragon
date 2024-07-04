@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const RepeatedlyMountForTesting = ({
+export const RepeatedlyReMountForTesting = ({
   duration = 200,
   children,
   active = true,

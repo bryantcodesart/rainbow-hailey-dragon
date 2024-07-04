@@ -1,19 +1,25 @@
-import { UI } from "./ui/UI";
+// import { UI } from "./ui/UI";
 import { WebGLCanvas } from "./webgl-util/WebglCanvas";
-import { CircleMerge } from "./CircleMergeShader/CircleMerge";
+// import { CircleMerge } from "./CircleMergeShader/CircleMerge";
 
-import { RepeatedlyMountForTesting } from "./utility/RepeatedlyMountForTesting";
+import { RepeatedlyReMountForTesting } from "./utility/RepeatedlyReMountForTesting";
 import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
+import { HaileyDragon } from "./Sprite/HaileyDragon";
+import { Background } from "./Sprite/Background";
 
 function App() {
   return (
     <ErrorModalBoundary>
       <WebGLCanvas>
-        <RepeatedlyMountForTesting duration={200} active={false}>
-          <CircleMerge />
-        </RepeatedlyMountForTesting>
+        <RepeatedlyReMountForTesting duration={200} active={false}>
+          <Background />
+          {Array.from({ length: 100 }, (_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            <HaileyDragon key={i} offset={i * 0.01} />
+          ))}
+        </RepeatedlyReMountForTesting>
       </WebGLCanvas>
-      <UI />
+      {/* <UI /> */}
     </ErrorModalBoundary>
   );
 }

@@ -1,4 +1,10 @@
 // import { useUIStore } from "./useUIStore";
+
+function getShaderType(gl: WebGL2RenderingContext, val: number) {
+  if (val === gl.VERTEX_SHADER) return "vertex";
+  if (val === gl.FRAGMENT_SHADER) return "fragment";
+  return "unknown";
+}
 export function createShader(
   gl: WebGL2RenderingContext,
   type: number,
@@ -14,5 +20,8 @@ export function createShader(
     return shader;
   }
   const errorMessage = gl.getShaderInfoLog(shader);
-  throw new Error(`Failed to compile shader: ${errorMessage}`);
+  const shaderType = getShaderType(gl, type);
+  throw new Error(
+    `Failed to compile ${shaderType} shader:\n\n${errorMessage} \n\n${source}`
+  );
 }

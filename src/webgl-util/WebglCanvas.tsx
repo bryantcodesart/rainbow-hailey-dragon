@@ -35,6 +35,9 @@ export function WebGLCanvas({ children }: { children?: ReactNode }) {
           {children}
         </WebglRendererContext.Provider>
       )}
+
+      {/* <div className="absolute w-[1px] h-full bg-white top-1/2 transform -translate-y-1/2 left-0 right-0 mx-auto opacity-30" /> */}
+      {/* <div className="absolute h-[1px] w-full bg-white left-1/2 transform -translate-x-1/2 top-0 bottom-0 my-auto opacity-30" /> */}
     </div>
   );
 }

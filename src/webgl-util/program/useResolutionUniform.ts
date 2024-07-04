@@ -20,6 +20,7 @@ export function useResolutionUniform(program: WebGLProgram | null) {
   useOnRender(
     () => {
       if (resolutionUniformLocation) {
+        gl.useProgram(program);
         gl.uniform2f(
           resolutionUniformLocation,
           renderer.width,

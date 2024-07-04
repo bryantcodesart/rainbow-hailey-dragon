@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { RenderQueueOptions } from "./WebGLRenderer";
+import { RenderQueueOptions, WebGLRenderer } from "./WebGLRenderer";
 import { useWebglRenderer } from "./useWebglRenderer";
 
 export function useOnRender(
-  callback: () => void,
+  callback: (_renderer: WebGLRenderer) => void,
   options: Partial<RenderQueueOptions> = {}
 ): void {
   const renderer = useWebglRenderer();

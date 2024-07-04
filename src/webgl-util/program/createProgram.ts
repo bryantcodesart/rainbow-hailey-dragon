@@ -28,5 +28,5 @@ export function createProgram(
     return program;
   }
   const errorMessage = gl.getProgramInfoLog(program);
-  throw new Error(`Failed to compile shader: ${errorMessage}`);
+  throw new Error(`Failed to compile program: ${errorMessage}`);
 }

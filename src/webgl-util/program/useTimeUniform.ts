@@ -18,6 +18,7 @@ export function useTimeUniform(program: WebGLProgram | null) {
   useOnRender(
     () => {
       if (timeUniformLocation) {
+        gl.useProgram(program);
         gl.uniform1f(timeUniformLocation, renderer.time);
       }
     },
