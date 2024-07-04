@@ -83,6 +83,7 @@ export function ShaderPlane({
     gl.enableVertexAttribArray(positionAttributeLocation);
     gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
+    gl.useProgram(program);
     onInit?.({ gl, program });
 
     setWebGLResources({ program, vao });

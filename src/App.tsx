@@ -11,13 +11,11 @@ function App() {
   return (
     <ErrorModalBoundary>
       <WebGLCanvas>
-        <RepeatedlyReMountForTesting duration={200} active={false}>
-          <Background />
-          {Array.from({ length: 100 }, (_, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <HaileyDragon key={i} offset={i * 0.01} />
-          ))}
-        </RepeatedlyReMountForTesting>
+        <Background />
+        {Array.from({ length: 100 }, (_, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          <HaileyDragon key={i} offset={i * 0.01} />
+        ))}
       </WebGLCanvas>
       {/* <UI /> */}
     </ErrorModalBoundary>

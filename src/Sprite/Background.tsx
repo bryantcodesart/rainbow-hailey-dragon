@@ -35,7 +35,7 @@ export function Background() {
       positionX={0}
       positionY={0}
       rotation={0}
-      order={1}
+      order={20}
       // onInit={onInit}
       // onRender={onRender}
       fragShader={backgroundFragmentShader}

@@ -128,7 +128,7 @@ export function HaileyDragon({ offset = 0 }: { offset?: number }) {
       onInit={onInit}
       onRender={onRender}
       fragShader={spriteFragmentShader}
-      order={5 - offset}
+      order={5}
     />
   );
 }
