@@ -347,6 +347,7 @@ export function HaileyDragon() {
         step={1}
         icon={"🐶"}
         label={"haileys"}
+        key={"dragon-haileys"}
       />
       <NumberSlider
         setValue={setSpeed}
@@ -356,12 +357,14 @@ export function HaileyDragon() {
         step={0.1}
         icon={"🚀"}
         label={"speed"}
+        key={"dragon-speed"}
       />
       <NumberSlider
         setValue={setCraziness}
         value={craziness}
         icon={"↯"}
         label={"craziness"}
+        key="dragon-craziness"
       />
     </ControlsTunnel.In>
   );
