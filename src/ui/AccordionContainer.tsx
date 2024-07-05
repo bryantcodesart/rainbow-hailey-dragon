@@ -23,7 +23,7 @@ export function AccordionContainer({
         closed: { y: "100%" },
       }}
     >
-      <header className="flex items-center absolute bottom-full gap-4 justify-between p-4 w-full bg-white mb-[-1px] border-2 border-black">
+      <header className="flex items-center absolute bottom-full gap-4 justify-between p-4 py-6 w-full bg-white mb-[-1px] border-2 border-black">
         <span className="text-[3rem]  translate-y-[-15%]">{icon}</span>
         <span className="flex-grow tracking-wider text-[1.25rem] hidden md:block">
           {title}
