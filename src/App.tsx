@@ -47,10 +47,19 @@ function App() {
         animate={{ y: showTitle ? "0%" : "-100%" }}
       >
         <h1>
-          Rainbow Hailey Dragon <span className="text-[1rem]">(0.1)</span>
+          Rainbow Hailey Dragon{" "}
+          <span className="text-[1rem]">(in progress)</span>
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-4 items-center px-4 pt-6 pb-2 text-center max-w-[50rem] w-full m-auto">
           <ControlsTunnel.Out />
+        </div>
+        <div className="absolute top-0 right-0 text-[1.5rem]">
+          <a
+            href="https://github.com/bryantcodesart/rainbow-hailey-dragon"
+            className="block p-4"
+          >
+            {"</>"}
+          </a>
         </div>
       </motion.div>
     </ErrorModalBoundary>
