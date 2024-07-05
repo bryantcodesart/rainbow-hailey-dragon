@@ -324,7 +324,7 @@ export function HaileyDragon() {
         return;
       }
       const previousTime = time.get();
-      const newTime = previousTime + (speed * 1) / 60;
+      const newTime = previousTime + (speed * 0.5) / 60;
       time.set(newTime);
       program.uniforms.u_resolution.update([renderer.width, renderer.height]);
       program.uniforms.u_time.update(newTime);
@@ -340,6 +340,14 @@ export function HaileyDragon() {
   return (
     <ControlsTunnel.In>
       <Controls.NumberSlider
+        setValue={setLength}
+        value={length}
+        min={1}
+        max={N_HAILEYS}
+        step={1}
+        label={"# haileys"}
+      />
+      <Controls.NumberSlider
         setValue={setCraziness}
         value={craziness}
         label={"craziness"}
@@ -348,17 +356,9 @@ export function HaileyDragon() {
         setValue={setSpeed}
         value={speed}
         min={0}
-        max={5}
+        max={10}
         step={0.1}
         label={"speed"}
-      />
-      <Controls.NumberSlider
-        setValue={setLength}
-        value={length}
-        min={1}
-        max={N_HAILEYS}
-        step={1}
-        label={"# haileys"}
       />
     </ControlsTunnel.In>
   );
