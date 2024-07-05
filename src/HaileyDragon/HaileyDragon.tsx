@@ -300,7 +300,7 @@ export function HaileyDragon() {
 
   const [craziness, setCraziness] = useState(0);
   const [speed, setSpeed] = useState(1);
-  const [length, setLength] = useState(25);
+  const [length, setLength] = useState(40);
   const time = useMotionValue(0);
   useEffect(() => {
     if (!gl) return;
@@ -354,7 +354,7 @@ export function HaileyDragon() {
         value={speed}
         min={0}
         max={10}
-        step={0.1}
+        step={0.001}
         icon={"🚀"}
         label={"speed"}
         key={"dragon-speed"}
@@ -364,6 +364,7 @@ export function HaileyDragon() {
         value={craziness}
         icon={"↯"}
         label={"craziness"}
+        step={0.001}
         key="dragon-craziness"
       />
     </ControlsTunnel.In>
