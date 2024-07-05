@@ -50,7 +50,7 @@ void main() {
   float width = 0.1*(pow(a_offset, 5.0) * 5. + 0.1);
   width = (sin(t+u_time*3.)*0.1+0.8)*width;
   width *= sin(t)*0.5+0.8;
-  width *= smallerSide;
+  // width *= smallerSide;
 
   // width = mix(width, width * 1.2, smoothstep(0.99,1.0,a_offset));
 
