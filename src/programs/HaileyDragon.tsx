@@ -309,6 +309,35 @@ export function HaileyDragon() {
   const [speed, setSpeed] = useState(1);
   const [length, setLength] = useState(40);
   const time = useMotionValue(2.25);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    let frameId: number;
+    const targetLength = 2000;
+    const increment = 10;
+
+    let nextLength = length;
+    const animate = () => {
+      setLength(() => {
+        nextLength = Math.min(targetLength, nextLength + increment);
+        return nextLength;
+      });
+
+      if (nextLength < targetLength) frameId = requestAnimationFrame(animate);
+    };
+
+    let cancelled = false;
+    setTimeout(() => {
+      if (cancelled) return;
+      animate();
+    }, 4000);
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
+
   useEffect(() => {
     if (!gl) return;
     const program = new Program({ gl });
