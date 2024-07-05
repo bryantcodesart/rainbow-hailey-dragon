@@ -330,7 +330,7 @@ export function HaileyDragon() {
     setTimeout(() => {
       if (cancelled) return;
       animate();
-    }, 4000);
+    }, 3000);
 
     return () => {
       cancelled = true;
@@ -382,7 +382,7 @@ export function HaileyDragon() {
         max={N_HAILEYS}
         step={1}
         icon={"🐶"}
-        label={"haileys"}
+        label={"# haileys"}
         key={"dragon-haileys"}
       />
       <NumberSlider
@@ -399,7 +399,7 @@ export function HaileyDragon() {
         setValue={setCraziness}
         value={craziness}
         icon={"💥"}
-        label={"craziness"}
+        label={"zigzag"}
         step={0.001}
         key="dragon-craziness"
       />

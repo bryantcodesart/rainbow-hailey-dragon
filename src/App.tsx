@@ -26,7 +26,7 @@ function App() {
         </WebGLCanvas>
       </motion.div>
       <motion.div
-        className="fixed top-0 left-0 w-full text-center z-[9999] text-white font-mono p-4 text-[1.5rem] md:text-[2rem] bg-black/30 leading-none"
+        className="fixed top-0 left-0 w-full text-center z-[9999] text-white font-mono p-4 text-[1.5rem] md:text-[2rem] bg-black/50 leading-none"
         initial={{ y: "-100%" }}
         animate={{ y: showTitle ? "0%" : "-100%" }}
       >

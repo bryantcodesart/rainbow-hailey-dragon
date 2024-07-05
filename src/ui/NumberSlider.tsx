@@ -42,7 +42,7 @@ export function NumberSlider({
         />
 
         <div className="overflow-hidden absolute inset-0 rounded-xl border-2 border-white pointer-events-none">
-          <div className="absolute top-0 left-0 bottom-0 w-[--left] bg-gray-700 group-hover:bg-gray-400" />
+          <div className="absolute top-0 left-0 bottom-0 w-[--left] bg-gray-400 group-hover:bg-gray-200" />
         </div>
         <div className="absolute top-0 left-[--left] w-14 h-14 text-[3rem] rounded-full pointer-events-none">
           <span className="block translate-y-[0em] -translate-x-1/2 group-hover:scale-[1.5] transition-transform duration-[50ms]">
@@ -53,7 +53,7 @@ export function NumberSlider({
 
       <div className="flex justify-between">
         <span className="block w-full text-xs text-center">
-          {value.toFixed(2)}
+          {label} ({value.toFixed(2)})
         </span>
       </div>
     </label>
