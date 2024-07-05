@@ -63,6 +63,8 @@ function App() {
         <a
           href="https://github.com/bryantcodesart/rainbow-hailey-dragon"
           className="block p-4"
+          target="_blank"
+          rel="noreferrer"
         >
           {"</>"}
         </a>
