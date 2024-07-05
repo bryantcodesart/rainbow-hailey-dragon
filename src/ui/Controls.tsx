@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 // export function ColorValueInput(props: {
 //   colorValue: number;
 //   setColorValue: (val: number) => void;
@@ -52,7 +52,8 @@ function NumberSlider({
   min = 0,
   max = 1,
   step = 0.01,
-  label,
+  // label,
+  icon,
 }: {
   value: number;
   setValue: (val: number) => void;
@@ -60,13 +61,15 @@ function NumberSlider({
   max?: number;
   step?: number;
   label: string;
+  icon: ReactNode;
 }) {
   return (
-    <label className="block">
-      {label} <span className="text-xs">({value.toFixed(2)})</span>
+    <label className="block w-full text-center">
+      <span className="text-[3rem]">{icon}</span>{" "}
+      <span className="text-xs">({value.toFixed(2)})</span>
       <input
         type="range"
-        className="block border-2 border-black"
+        className="block w-full border-2 border-black"
         value={value}
         min={min}
         max={max}
@@ -79,17 +82,17 @@ function NumberSlider({
   );
 }
 
-interface AccordionContainerProps {
-  title: string;
-  children?: React.ReactNode;
-  defaultOpen?: boolean;
-}
-
 function AccordionContainer({
   title,
   children,
+  icon,
   defaultOpen = false,
-}: AccordionContainerProps) {
+}: {
+  title: string;
+  children?: ReactNode;
+  defaultOpen?: boolean;
+  icon: ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
@@ -101,15 +104,22 @@ function AccordionContainer({
         closed: { y: "100%" },
       }}
     >
-      <header className="flex absolute bottom-full justify-between p-4 w-full bg-white mb-[-1px]">
-        <span>{title}</span>
-        <button onClick={() => setIsOpen(!isOpen)} type="button">
+      <header className="flex items-center absolute bottom-full gap-4 justify-between p-4 w-full bg-white mb-[-1px] border-2 border-black">
+        <span className="text-[3rem]  translate-y-[-15%]">{icon}</span>
+        <span className="flex-grow tracking-wider text-[1.25rem]">{title}</span>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          type="button"
+          className="text-[1.5rem]"
+        >
           <span className="absolute inset-0" />
-          {isOpen ? "▼" : "▶︎"}
+          <span className="translate-y-[-15%] block">
+            {isOpen ? "▼" : "▶︎"}
+          </span>
         </button>
       </header>
-      <section className="overflow-hidden">
-        <div className="flex flex-wrap gap-4 items-center p-4 text-center max-w-[50vw]">
+      <section className="overflow-hidden border-2 border-black">
+        <div className="flex flex-wrap justify-stretch gap-6 items-center px-4 pb-6 pt-8 text-center max-w-[16rem]">
           {children}
         </div>
       </section>

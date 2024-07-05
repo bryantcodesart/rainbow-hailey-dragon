@@ -300,7 +300,7 @@ export function HaileyDragon() {
 
   const [craziness, setCraziness] = useState(0);
   const [speed, setSpeed] = useState(1);
-  const [length, setLength] = useState(Math.floor(N_HAILEYS * 0.2));
+  const [length, setLength] = useState(25);
   const time = useMotionValue(0);
   useEffect(() => {
     if (!gl) return;
@@ -345,11 +345,13 @@ export function HaileyDragon() {
         min={1}
         max={N_HAILEYS}
         step={1}
-        label={"# haileys"}
+        icon={"🐶"}
+        label={"haileys"}
       />
       <Controls.NumberSlider
         setValue={setCraziness}
         value={craziness}
+        icon={"↯"}
         label={"craziness"}
       />
       <Controls.NumberSlider
@@ -358,6 +360,7 @@ export function HaileyDragon() {
         min={0}
         max={10}
         step={0.1}
+        icon={"🚀"}
         label={"speed"}
       />
     </ControlsTunnel.In>
