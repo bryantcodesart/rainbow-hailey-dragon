@@ -4,10 +4,10 @@ function getParam(val: string) {
   return null;
 }
 
-// function getBooleanParam(paramName: string, defaultValue: boolean): boolean {
-//   const paramValue = getParam(paramName);
-//   return paramValue !== null ? paramValue === "true" : defaultValue;
-// }
+function getBooleanParam(paramName: string, defaultValue: boolean): boolean {
+  const paramValue = getParam(paramName);
+  return paramValue !== null ? paramValue === "true" : defaultValue;
+}
 
 function getNumberParam(
   paramName: string,
@@ -27,4 +27,5 @@ function getNumberParam(
 
 export const DEBUG_OPTIONS = {
   FORCE_DPR: getNumberParam("debug-force-dpr", null),
+  STATS: getBooleanParam("debug-stats", false),
 } as const;

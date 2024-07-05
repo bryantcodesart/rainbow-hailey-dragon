@@ -8,7 +8,6 @@ import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
 import { HaileyDragon } from "./HaileyDragon/HaileyDragon";
 import tunnel from "tunnel-rat";
 import { useEffect, useState } from "react";
-import { AccordionContainer } from "./ui/AccordionContainer";
 
 export const ControlsTunnel = tunnel();
 export const CodeTunnel = tunnel();
@@ -29,34 +28,30 @@ const useTrueAfterDelay = (ms: number): boolean => {
 
 function App() {
   const showWebGL = useTrueAfterDelay(1000);
-  const showTitle = useTrueAfterDelay(100);
-  const showControls = useTrueAfterDelay(2500);
+  const showTitle = true; //useTrueAfterDelay(1500);
+  // const showControls = useTrueAfterDelay(2500);
   return (
     <ErrorModalBoundary>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: showWebGL ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 2 }}
       >
         <WebGLCanvas>
           <HaileyDragon />
         </WebGLCanvas>
       </motion.div>
-      <motion.h1
-        className="fixed top-0 left-0 w-full text-center z-[9999] text-white font-mono p-6 text-[2rem] md:text-[3rem] bg-black/30 leading-none"
+      <motion.div
+        className="fixed top-0 left-0 w-full text-center z-[9999] text-white font-mono p-4 text-[1.5rem] md:text-[2rem] bg-black/30 leading-none"
         initial={{ y: "-100%" }}
         animate={{ y: showTitle ? "0%" : "-100%" }}
       >
-        Rainbow Hailey Dragon <span className="text-[1rem]">(0.1)</span>
-      </motion.h1>
-      <motion.div
-        className="fixed bottom-0 left-0 z-[9999]"
-        initial={{ y: "200%" }}
-        animate={{ y: showControls ? "0%" : "200%" }}
-      >
-        <AccordionContainer icon="⚙️" title="controls" defaultOpen>
+        <h1>
+          Rainbow Hailey Dragon <span className="text-[1rem]">(0.1)</span>
+        </h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-4 items-center px-4 pt-6 pb-2 text-center max-w-[50rem] w-full m-auto">
           <ControlsTunnel.Out />
-        </AccordionContainer>
+        </div>
       </motion.div>
     </ErrorModalBoundary>
   );

@@ -8,7 +8,7 @@ import { ControlsTunnel } from "../App";
 import { useMotionValue } from "framer-motion";
 import { NumberSlider } from "../ui/NumberSlider";
 
-const N_HAILEYS = 4000;
+const N_HAILEYS = 3000;
 
 const vertShader = /*glsl*/ `#version 300 es
 #pragma vscode_glsllint_stage : vert
@@ -38,17 +38,12 @@ void main() {
   v_uv = a_position.xy * .5 + .5;
   v_offset = a_offset;
 
-
-
-
   float aspect = u_resolution.x / u_resolution.y;
 
   float largerSide = max(1.0,aspect);
   float smallerSide = min(1.0,aspect);
 
-
-
-  float t = u_time * 2.0 + (a_offset * TAU)*10.0;
+  float t = u_time * 2.0 + (a_offset * TAU)*8.0;
   v_t = t;
 
 
@@ -62,7 +57,7 @@ void main() {
   float radius = sin(a_offset*sin(t*0.2)*4.0)+v_offset*0.5;
   radius += u_craziness*spikySin(t*0.3)*0.5*spikySin(t*0.11);
 
-  radius *= smallerSide * 0.8;
+  radius *= smallerSide * (0.9 - 0.2 * u_craziness);
 
   float x = cos(t) * radius;
   float y = sin(t) * radius;

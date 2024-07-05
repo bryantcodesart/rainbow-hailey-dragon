@@ -1,5 +1,6 @@
 import Stats from "stats.js";
 import { getDpr } from "./getDpr";
+import { DEBUG_OPTIONS } from "../../DEBUG_OPTIONS";
 
 export type RenderQueueOptions = {
   order: number;
@@ -35,7 +36,7 @@ export class WebGLRenderer {
     this.canvas = canvas;
 
     this.stats = new Stats(); // Initialize stats
-    document.body.appendChild(this.stats.dom); // Append stats to the DOM
+    if (DEBUG_OPTIONS.STATS) document.body.appendChild(this.stats.dom); // Append stats to the DOM
 
     this.intersectionObserver = new IntersectionObserver((entries) => {
       this.inView = entries[0].isIntersecting;
@@ -45,9 +46,9 @@ export class WebGLRenderer {
     this.resizeCanvasToDisplaySize();
 
     const drawLoop = () => {
-      this.stats.begin();
+      if (DEBUG_OPTIONS.STATS) this.stats.begin();
       this.frame();
-      this.stats.end();
+      if (DEBUG_OPTIONS.STATS) this.stats.end();
       requestAnimationFrame(drawLoop);
     };
 
@@ -121,6 +122,6 @@ export class WebGLRenderer {
 
   public destroy(): void {
     this.intersectionObserver.disconnect();
-    this.stats.dom.remove();
+    if (DEBUG_OPTIONS.STATS) this.stats.dom.remove();
   }
 }

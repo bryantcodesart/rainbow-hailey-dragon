@@ -6,7 +6,7 @@ export function NumberSlider({
   min = 0,
   max = 1,
   step = 0.01,
-  // label,
+  label,
   icon,
 }: {
   value: number;
@@ -18,10 +18,8 @@ export function NumberSlider({
   icon: ReactNode;
 }) {
   return (
-    <label className="block w-full text-center">
-      <div className="flex justify-between">
-        <span className="block text-xs">({value.toFixed(2)})</span>
-      </div>
+    <label className="block text-center">
+      <span className="sr-only">{label}</span>
       <div
         className="relative group"
         style={{
@@ -33,7 +31,7 @@ export function NumberSlider({
       >
         <input
           type="range"
-          className="block w-full h-14 border-2 border-black opacity-0 appearance-none cursor-pointer"
+          className="block w-full h-12 border-2 border-black opacity-0 appearance-none cursor-pointer [&::-webkit-slider-thumb]:h-16 [&::-webkit-slider-thumb]:w-16 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-black"
           value={value}
           min={min}
           max={max}
@@ -43,14 +41,20 @@ export function NumberSlider({
           }}
         />
 
-        <div className="overflow-hidden absolute inset-0 rounded-xl border-2 border-black pointer-events-none">
-          <div className="absolute top-0 left-0 bottom-0 w-[--left] bg-gray-300 group-hover:bg-gray-400" />
+        <div className="overflow-hidden absolute inset-0 rounded-xl border-2 border-white pointer-events-none">
+          <div className="absolute top-0 left-0 bottom-0 w-[--left] bg-gray-700 group-hover:bg-gray-400" />
         </div>
         <div className="absolute top-0 left-[--left] w-14 h-14 text-[3rem] rounded-full pointer-events-none">
-          <span className="block translate-y-[0.4em] -translate-x-1/2 group-hover:scale-[1.5] transition-transform duration-[50ms]">
+          <span className="block translate-y-[0em] -translate-x-1/2 group-hover:scale-[1.5] transition-transform duration-[50ms]">
             {icon}
           </span>
         </div>
+      </div>
+
+      <div className="flex justify-between">
+        <span className="block w-full text-xs text-center">
+          {value.toFixed(2)}
+        </span>
       </div>
     </label>
   );
