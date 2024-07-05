@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
 import { HaileyDragon } from "./HaileyDragon/HaileyDragon";
 import tunnel from "tunnel-rat";
-import { Controls } from "./ui/Controls";
 import { useEffect, useState } from "react";
+import { AccordionContainer } from "./ui/AccordionContainer";
 
 export const ControlsTunnel = tunnel();
 export const CodeTunnel = tunnel();
@@ -43,7 +43,7 @@ function App() {
         </WebGLCanvas>
       </motion.div>
       <motion.h1
-        className="fixed top-0 left-0 w-full text-center z-[9999] text-white font-mono p-6 text-[3rem] bg-black/30 leading-none"
+        className="fixed top-0 left-0 w-full text-center z-[9999] text-white font-mono p-6 text-[2rem] md:text-[3rem] bg-black/30 leading-none"
         initial={{ y: "-100%" }}
         animate={{ y: showTitle ? "0%" : "-100%" }}
       >
@@ -54,9 +54,9 @@ function App() {
         initial={{ y: "200%" }}
         animate={{ y: showControls ? "0%" : "200%" }}
       >
-        <Controls.AccordionContainer icon="⚙️" title="controls" defaultOpen>
+        <AccordionContainer icon="⚙️" title="controls" defaultOpen>
           <ControlsTunnel.Out />
-        </Controls.AccordionContainer>
+        </AccordionContainer>
       </motion.div>
     </ErrorModalBoundary>
   );

@@ -7,6 +7,7 @@ import { ImageTexture } from "../webgl-util/program/ImageTexture";
 import { ControlsTunnel } from "../App";
 import { Controls } from "../ui/Controls";
 import { useMotionValue } from "framer-motion";
+import { NumberSlider } from "../ui/NumberSlider";
 
 const N_HAILEYS = 4000;
 
@@ -339,7 +340,7 @@ export function HaileyDragon() {
 
   return (
     <ControlsTunnel.In>
-      <Controls.NumberSlider
+      <NumberSlider
         setValue={setLength}
         value={length}
         min={1}
@@ -348,13 +349,13 @@ export function HaileyDragon() {
         icon={"🐶"}
         label={"haileys"}
       />
-      <Controls.NumberSlider
+      <NumberSlider
         setValue={setCraziness}
         value={craziness}
         icon={"↯"}
         label={"craziness"}
       />
-      <Controls.NumberSlider
+      <NumberSlider
         setValue={setSpeed}
         value={speed}
         min={0}

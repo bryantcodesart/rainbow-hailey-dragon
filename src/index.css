@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 html {
-  @apply bg-black select-none;
+  @apply bg-black select-none touch-none;
 }
