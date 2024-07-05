@@ -1,4 +1,4 @@
-import { DEBUG_OPTIONS } from "../../DEBUG_OPTIONS";
+import { DEBUG_OPTIONS } from "../DEBUG_OPTIONS";
 
 export const MAX_DPR = 2;
 export function getDpr() {

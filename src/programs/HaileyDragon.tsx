@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createProgram } from "../webgl-util/program/createProgram";
 import { Uniform } from "../webgl-util/program/Uniform";
 import { ImageTexture } from "../webgl-util/program/ImageTexture";
-import { ControlsTunnel } from "../App";
+import { ControlsTunnel } from "../tunnels/ControlsTunnel";
 import { useMotionValue } from "framer-motion";
 import { NumberSlider } from "../ui/NumberSlider";
 

@@ -1,4 +1,4 @@
-import { NumberArray } from "../NumberArray";
+import { NumberArray } from "../../utility/NumberArray";
 
 type UniformType =
   | "float"

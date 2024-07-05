@@ -1,5 +1,5 @@
 import Stats from "stats.js";
-import { getDpr } from "./getDpr";
+import { getDpr } from "../../utility/getDpr";
 import { DEBUG_OPTIONS } from "../../DEBUG_OPTIONS";
 
 export type RenderQueueOptions = {

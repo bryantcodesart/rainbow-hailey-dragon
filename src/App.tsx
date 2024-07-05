@@ -1,35 +1,19 @@
 // import { UI } from "./ui/UI";
-import { WebGLCanvas } from "./webgl-util/WebglCanvas";
+import { WebGLCanvas } from "./webgl-util/renderer/WebglCanvas";
 // import { CircleMerge } from "./CircleMergeShader/CircleMerge";
 
 // import { RepeatedlyReMountForTesting } from "./utility/RepeatedlyReMountForTesting";
 import { motion } from "framer-motion";
 import { ErrorModalBoundary } from "./error/ErrorModalBoundary";
-import { HaileyDragon } from "./HaileyDragon/HaileyDragon";
-import tunnel from "tunnel-rat";
-import { useEffect, useState } from "react";
-
-export const ControlsTunnel = tunnel();
-export const CodeTunnel = tunnel();
-
-const useTrueAfterDelay = (ms: number): boolean => {
-  const [value, setValue] = useState<boolean>(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setValue(true);
-    }, ms);
-
-    return () => clearTimeout(timer);
-  }, [ms]);
-
-  return value;
-};
+import { HaileyDragon } from "./programs/HaileyDragon";
+import { useTrueAfterDelay } from "./utility/useTrueAfterDelay";
+import { ControlsTunnel } from "./tunnels/ControlsTunnel";
 
 function App() {
   const showWebGL = useTrueAfterDelay(500);
   const showTitle = useTrueAfterDelay(2000);
   const showCodeLink = useTrueAfterDelay(4000);
+
   return (
     <ErrorModalBoundary>
       <motion.div

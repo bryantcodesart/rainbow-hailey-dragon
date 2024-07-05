@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { WebGLRenderer } from "./renderer/WebGLRenderer";
-import { WebglRendererContext } from "./renderer/WebglRendererContext";
+import { WebGLRenderer } from "./WebGLRenderer";
+import { WebglRendererContext } from "./WebglRendererContext";
 
 export function WebGLCanvas({ children }: { children?: ReactNode }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
