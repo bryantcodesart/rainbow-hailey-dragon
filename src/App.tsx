@@ -29,7 +29,7 @@ const useTrueAfterDelay = (ms: number): boolean => {
 function App() {
   const showWebGL = useTrueAfterDelay(500);
   const showTitle = useTrueAfterDelay(2000);
-  // const showControls = useTrueAfterDelay(2500);
+  const showCodeLink = useTrueAfterDelay(4000);
   return (
     <ErrorModalBoundary>
       <motion.div
@@ -53,14 +53,19 @@ function App() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-4 items-center px-4 pt-6 pb-2 text-center max-w-[50rem] w-full m-auto">
           <ControlsTunnel.Out />
         </div>
-        <div className="absolute top-0 right-0 text-[1.5rem]">
-          <a
-            href="https://github.com/bryantcodesart/rainbow-hailey-dragon"
-            className="block p-4"
-          >
-            {"</>"}
-          </a>
-        </div>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-0 right-0 text-[1.5rem] text-white font-mono"
+        initial={{ y: "100%" }}
+        animate={{ y: showCodeLink ? "0%" : "100%" }}
+      >
+        <a
+          href="https://github.com/bryantcodesart/rainbow-hailey-dragon"
+          className="block p-4"
+        >
+          {"</>"}
+        </a>
       </motion.div>
     </ErrorModalBoundary>
   );
