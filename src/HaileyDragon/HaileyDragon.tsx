@@ -53,13 +53,21 @@ void main() {
   if(a_offset<1.-u_length) width = 0.0;
   vec2 size = vec2(width, width);
   float rotation = sin(t)*spikySin(t*0.2);
-  vec2 anchor = vec2(0.5, 0.5);
   float radius = sin(a_offset*sin(t*0.2)*4.0)+v_offset*0.5;
+  radius += u_craziness*spikySin(t*0.3)*0.5*spikySin(t*0.11);
+
   float x = cos(t) * radius;
   float y = sin(t) * radius;
   vec2 translation = vec2(x,y);
 
+  float anchorX = cos(t*5.) * u_craziness * 3.0 + 0.5;
+  float anchorY = sin(t*3.2) * u_craziness * 3.0 + 0.5;
+  vec2 anchor = vec2(anchorY, anchorX);
+
+
+
   vec2 scale = size * 0.5 ;
+
 
   vec2 vertPosition = a_position.xy;
   vertPosition *= size * 0.5;
@@ -212,7 +220,7 @@ class Program {
       u_craziness: new Uniform({
         gl,
         program: this.program,
-        name: "u_crazieness",
+        name: "u_craziness",
         type: "float",
         initialValue: 0,
       }),
@@ -241,25 +249,6 @@ class Program {
 
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-    // gl.enableVertexAttribArray(this.attributeLocs.a_position);
-    // gl.vertexAttribPointer(
-    //   this.attributeLocs.a_position,
-    //   2,
-    //   gl.FLOAT,
-    //   false,
-    //   12,
-    //   0
-    // );
-    // gl.enableVertexAttribArray(this.attributeLocs.a_offset);
-    // gl.vertexAttribPointer(
-    //   this.attributeLocs.a_offset,
-    //   1,
-    //   gl.FLOAT,
-    //   false,
-    //   12,
-    //   8
-    // );
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.vertPositionData);
     gl.enableVertexAttribArray(this.attributeLocs.a_position);
@@ -340,6 +329,7 @@ export function HaileyDragon() {
       program.uniforms.u_resolution.update([renderer.width, renderer.height]);
       program.uniforms.u_time.update(newTime);
       program.uniforms.u_length.update(length / N_HAILEYS);
+      program.uniforms.u_craziness.update(craziness);
       program.draw();
     },
     {
