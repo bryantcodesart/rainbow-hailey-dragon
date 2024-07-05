@@ -43,7 +43,7 @@ void main() {
   float largerSide = max(1.0,aspect);
   float smallerSide = min(1.0,aspect);
 
-  float t = u_time * 2.0 + (a_offset * TAU)*7.0 * (1.0- 0.3 * u_craziness);
+  float t = u_time * 2.0 + (7.0 *  TAU * a_offset ); // * (1.0- 0.3 * u_craziness);
   v_t = t;
 
 
