@@ -27,8 +27,8 @@ const useTrueAfterDelay = (ms: number): boolean => {
 };
 
 function App() {
-  const showWebGL = useTrueAfterDelay(1000);
-  const showTitle = true; //useTrueAfterDelay(1500);
+  const showWebGL = useTrueAfterDelay(500);
+  const showTitle = useTrueAfterDelay(2000);
   // const showControls = useTrueAfterDelay(2500);
   return (
     <ErrorModalBoundary>

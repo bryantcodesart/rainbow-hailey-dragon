@@ -43,13 +43,16 @@ void main() {
   float largerSide = max(1.0,aspect);
   float smallerSide = min(1.0,aspect);
 
-  float t = u_time * 2.0 + (a_offset * TAU)*8.0;
+  float t = u_time * 2.0 + (a_offset * TAU)*7.0 * (1.0- 0.3 * u_craziness);
   v_t = t;
 
 
   float width = 0.1*(pow(a_offset, 5.0) * 5. + 0.1);
   width = (sin(t+u_time*3.)*0.1+0.8)*width;
   width *= sin(t)*0.5+0.8;
+  width *= smallerSide;
+
+  // width = mix(width, width * 1.2, smoothstep(0.99,1.0,a_offset));
 
   if(a_offset<1.-u_length) width = 0.0;
   vec2 size = vec2(width, width);
@@ -126,6 +129,7 @@ void main() {
   tailColor.r += sin(ct);
   tailColor.g += sin(ct*2.2);
   tailColor.b += sin(ct*3.7);
+  tailColor.a *= 1.;
 
   vec4 headColor = texColor*(1.0 + 0.5*(sin(u_time*7.)*0.5+0.5));
   vec4 color = mix(tailColor, headColor, smoothstep(0.99,1.0,v_offset));
@@ -304,7 +308,7 @@ export function HaileyDragon() {
   const [craziness, setCraziness] = useState(0);
   const [speed, setSpeed] = useState(1);
   const [length, setLength] = useState(40);
-  const time = useMotionValue(2);
+  const time = useMotionValue(2.25);
   useEffect(() => {
     if (!gl) return;
     const program = new Program({ gl });
