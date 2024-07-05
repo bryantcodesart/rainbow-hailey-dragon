@@ -23,7 +23,7 @@ export function NumberSlider({
         <span className="block text-xs">({value.toFixed(2)})</span>
       </div>
       <div
-        className="relative"
+        className="relative group"
         style={{
           /* eslint-disable @typescript-eslint/no-explicit-any */
           // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -44,10 +44,10 @@ export function NumberSlider({
         />
 
         <div className="overflow-hidden absolute inset-0 rounded-xl border-2 border-black pointer-events-none">
-          <div className="absolute top-0 left-0 bottom-0 w-[--left] bg-gray-300" />
+          <div className="absolute top-0 left-0 bottom-0 w-[--left] bg-gray-300 group-hover:bg-gray-400" />
         </div>
         <div className="absolute top-0 left-[--left] w-14 h-14 text-[3rem] rounded-full pointer-events-none">
-          <span className="block translate-y-[0.4em] -translate-x-1/2">
+          <span className="block translate-y-[0.4em] -translate-x-1/2 group-hover:scale-[1.5] transition-transform duration-[50ms]">
             {icon}
           </span>
         </div>
