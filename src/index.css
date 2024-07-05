@@ -3,5 +3,7 @@
 @tailwind utilities;
 
 html {
-  @apply bg-black select-none touch-none;
+  @apply bg-black font-mono select-none touch-none text-white;
+  --z-allow-audio-mask: 1000;
+  --z-ui: 100;
 }
