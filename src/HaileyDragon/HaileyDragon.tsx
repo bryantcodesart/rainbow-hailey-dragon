@@ -309,7 +309,7 @@ export function HaileyDragon() {
   const [craziness, setCraziness] = useState(0);
   const [speed, setSpeed] = useState(1);
   const [length, setLength] = useState(40);
-  const time = useMotionValue(0);
+  const time = useMotionValue(2);
   useEffect(() => {
     if (!gl) return;
     const program = new Program({ gl });
@@ -370,7 +370,7 @@ export function HaileyDragon() {
       <NumberSlider
         setValue={setCraziness}
         value={craziness}
-        icon={"↯"}
+        icon={"💥"}
         label={"craziness"}
         step={0.001}
         key="dragon-craziness"

@@ -25,7 +25,7 @@ export function AccordionContainer({
     >
       <header className="flex items-center absolute bottom-full gap-4 justify-between p-4 py-6 w-full bg-white mb-[-1px] border-2 border-black">
         <span className="text-[3rem]  translate-y-[-15%]">{icon}</span>
-        <span className="flex-grow tracking-wider text-[1.25rem] hidden md:block">
+        <span className="flex-grow tracking-wider text-[1.25rem]  ">
           {title}
         </span>
         <button
@@ -40,7 +40,7 @@ export function AccordionContainer({
         </button>
       </header>
       <section className="overflow-hidden border-2 border-black">
-        <div className="flex flex-wrap justify-stretch gap-6 items-center px-4 pb-6 pt-8 text-center w-[10rem] md:w-[14rem]">
+        <div className="flex flex-wrap justify-stretch gap-6 items-center px-8 pb-6 pt-8 text-center w-[14rem] md:w-[18rem]">
           {children}
         </div>
       </section>
